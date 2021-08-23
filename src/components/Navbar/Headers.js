@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect } from "react";
-import { useHistory } from "react-router";
+import { useHistory, Link } from "react-router-dom";
 import { Navbar, Nav, Container, Button, Dropdown } from "react-bootstrap";
 import { BiCartAlt, BiUserCircle, BiLogOutCircle } from "react-icons/bi";
 import Logo from "../../assets/Logo.svg";
@@ -9,6 +9,7 @@ import RegisterModal from "../Modals/RegisterModal";
 
 function Headers() {
   const route = useHistory();
+  const isLogedIn = window.localStorage.getItem("isLogedIn");
 
   const initialState = {
     modalLogin: false,
@@ -17,28 +18,27 @@ function Headers() {
 
   function reducer(state, action) {
     switch (action.type) {
-      case "showModalL":
-        return { modalLogin: true };
-      case "showModalR":
-        return { modalRegister: true };
-      case "hideModalL":
-        return { modalLogin: false };
-      case "hideModalR":
-        return { modalRegister: false };
-      case "forceRender":
-        return {};
+      case "ModalL":
+        return {
+          modalLogin: !state.modalLogin,
+        };
+      case "ModalR":
+        return {
+          modalRegister: !state.modalRegister,
+        };
       case "switchModal":
         return {
           modalRegister: !state.modalRegister,
           modalLogin: !state.modalLogin,
         };
+      case "forceRender":
+        return {};
       default:
         throw new Error();
     }
   }
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  const isLogedIn = window.localStorage.getItem("isLogedIn");
 
   function handleLogout() {
     window.localStorage.setItem("isLogedIn", false);
@@ -52,7 +52,7 @@ function Headers() {
         <Button
           variant="outline-danger"
           size="sm"
-          onClick={() => dispatch({ type: "showModalL" })}
+          onClick={() => dispatch({ type: "ModalL" })}
         >
           Login
         </Button>
@@ -62,7 +62,7 @@ function Headers() {
           variant="danger"
           size="sm"
           className="bg-overide"
-          onClick={() => dispatch({ type: "showModalR" })}
+          onClick={() => dispatch({ type: "ModalR" })}
         >
           Register
         </Button>
@@ -71,7 +71,12 @@ function Headers() {
   );
   const user = (
     <>
-      <BiCartAlt className="mx-3 my-auto icons-img" size="3rem" />
+      <div className="position-relative mx-3 my-auto">
+        <span className="position-absolute  top-0 start-100 translate-middle badge rounded-pill bg-danger">
+          1<span className="visually-hidden">product in cart</span>
+        </span>
+        <BiCartAlt className="icons-img" size="3rem"></BiCartAlt>
+      </div>
       <Dropdown as={Nav.Item} className="ml-3">
         <Dropdown.Toggle as={Nav.Link}>
           <img
@@ -79,13 +84,18 @@ function Headers() {
             src={Avatar}
             alt="user pic"
             width="50px"
-            style={{ position: "relative", transform: "translate(0,0)" }}
+            style={{ position: "relative", transform: "translate(15px,-3px)" }}
           />
         </Dropdown.Toggle>
-        <Dropdown.Menu align="right">
+        <Dropdown.Menu align="end" className="shadow" style={{ border: 0 }}>
           <Dropdown.Item>
-            <BiUserCircle className="mx-2 icons-img" size="2rem" />
-            Profile
+            <Link
+              to="/profile"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <BiUserCircle className="mx-2 icons-img" size="2rem" />
+              Profile
+            </Link>
           </Dropdown.Item>
           <Dropdown.Item onClick={handleLogout}>
             <BiLogOutCircle className="mx-2 icons-img" size="2rem" />
@@ -97,11 +107,10 @@ function Headers() {
   );
 
   useEffect(() => {
-    if (
-      window.location.pathname === "/signin" &&
-      window.localStorage.getItem("isLogedIn") === "false"
-    ) {
-      dispatch({ type: "showModalL" });
+    const pathName = window.location.pathname;
+    // dispatch({ type: 'forceRender' });
+    if (pathName === "/signin" && (!isLogedIn || isLogedIn === "false")) {
+      dispatch({ type: "ModalL" });
     }
   }, []);
   //    const [showLogin, setShowL] = useState(false);
@@ -113,11 +122,18 @@ function Headers() {
   //   const handleShowR = () => setShowR(true);
   return (
     <>
-      <Navbar collapseOnSelect expand="lg">
+      <Navbar
+        collapseOnSelect
+        expand="lg"
+        className="fixed-top shadow"
+        bg="white"
+      >
         <Container>
-          <Navbar.Brand href="#home">
-            <img src={Logo} alt="..." width="70px" />
-          </Navbar.Brand>
+          <Link to="/">
+            <Navbar.Brand>
+              <img src={Logo} alt="..." width="70px" />
+            </Navbar.Brand>
+          </Link>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto"></Nav>
@@ -126,12 +142,12 @@ function Headers() {
         </Container>
       </Navbar>
       <LoginModal
-        handleClose={() => dispatch({ type: "hideModalL" })}
+        handleClose={() => dispatch({ type: "ModalL" })}
         switchModal={() => dispatch({ type: "switchModal" })}
         show={state.modalLogin}
       />
       <RegisterModal
-        handleClose={() => dispatch({ type: "hideModalR" })}
+        handleClose={() => dispatch({ type: "ModalR" })}
         switchModal={() => dispatch({ type: "switchModal" })}
         show={state.modalRegister}
       />
