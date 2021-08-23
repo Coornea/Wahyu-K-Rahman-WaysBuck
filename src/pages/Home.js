@@ -1,10 +1,14 @@
-import React from 'react'
+import React from "react";
+import Hero from "../components/Hero";
+import Featured from "../components/Product/Featured";
 
 function Home() {
-   return (
-      <>
-      </>
-   )
+  return (
+    <>
+      <Hero />
+      <Featured />
+    </>
+  );
 }
 
-export default Home
+export default Home;

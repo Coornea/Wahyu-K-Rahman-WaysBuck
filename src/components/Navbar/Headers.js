@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
 import { useHistory } from "react-router";
 import { Navbar, Nav, Container, Button, Dropdown } from "react-bootstrap";
 import { BiCartAlt, BiUserCircle, BiLogOutCircle } from "react-icons/bi";
@@ -95,6 +95,15 @@ function Headers() {
       </Dropdown>
     </>
   );
+
+  useEffect(() => {
+    if (
+      window.location.pathname === "/signin" &&
+      window.localStorage.getItem("isLogedIn") === "false"
+    ) {
+      dispatch({ type: "showModalL" });
+    }
+  }, []);
   //    const [showLogin, setShowL] = useState(false);
   //    const [showRegister, setShowR] = useState(false);
 
