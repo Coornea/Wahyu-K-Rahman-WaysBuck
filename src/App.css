@@ -1,38 +1,46 @@
-.App {
-  text-align: center;
+.bg-overide {
+	background-color: #bd0707;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.text-overide {
+	color: #bd0707;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.input-overide {
+	border: 2px solid #bd0707;
+	background-color: rgba(224, 200, 200, 25%);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.input-overide:focus {
+	border: 2px solid #bd0707;
+	background-color: rgba(224, 200, 200, 25%);
+	box-shadow: 0 0 10px 5px rgb(247, 161, 161);
 }
 
-.App-link {
-  color: #61dafb;
+.icons-img {
+	color: #bd0707;
+	size:5em;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.modal-overide {
+	width: 420px;
+}
+
+.modal-overide span {
+	cursor: pointer;
+}
+
+.modal-overide span:hover {
+	text-decoration: underline;
+}
+
+.card-overide {
+	background-color: #f6dada;
+	color: #bd0707;
+	border: 0;
+}
+
+.card-overide span {
+	background-color: #f6dada;
+	color: #974a4a;
 }
