@@ -75,7 +75,9 @@ function Headers() {
         <span className="position-absolute  top-0 start-100 translate-middle badge rounded-pill bg-danger">
           1<span className="visually-hidden">product in cart</span>
         </span>
-        <BiCartAlt className="icons-img" size="3rem"></BiCartAlt>
+        <Link to="/cart">
+          <BiCartAlt className="icons-img" size="3rem"></BiCartAlt>
+        </Link>
       </div>
       <Dropdown as={Nav.Item} className="ml-3">
         <Dropdown.Toggle as={Nav.Link}>
