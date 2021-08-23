@@ -1,0 +1,16 @@
+[
+	{
+		"id": 1,
+		"name": "WaysBucks User",
+		"email": "user@ways.com",
+		"password": "user",
+		"role": "user"
+	},
+	{
+		"id": 2,
+		"name": "WaysBucks Admin",
+		"email": "admin@ways.com",
+		"password": "admin",
+		"role": "admin"
+	}
+]
